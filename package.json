@@ -1,0 +1,21 @@
+{
+  "name": "cordova-replay",
+  "version": "0.0.1",
+  "description": "Allows to use the iOS's ReplayKit framework",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaelhem/cordova-replay.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "replaykit",
+    "screen recording"
+  ],
+  "author": "Kaelhem <kaelhem@gmail.com> (https://github.com/kaelhem)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kaelhem/cordova-replay/issues"
+  },
+  "homepage": "https://github.com/kaelhem/cordova-replay#readme"
+}
