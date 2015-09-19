@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-replay" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+<plugin id="cordova-replay" version="0.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0">
     <name>CordovaReplay</name>
-    <description>Retrieve coordinates from a given location</description>
+    <description>This cordova plugin allows to use the ReplayKit framework in iOS</description>
     <keywords>cordova,replaykit,screen recording</keywords>
     <license>MIT</license>
     <repo>https://github.com/kaelhem/cordova-replay.git</repo>
@@ -11,7 +11,7 @@
     </engines>
 
     <js-module name="CordovaReplay" src="www/CordovaReplay.js">
-        <clobbers target="cordova.plugins.CordovaReplay"/>
+        <clobbers target="cordova.plugins.Replay"/>
     </js-module>
 
     <platform name="ios">

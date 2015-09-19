@@ -10,11 +10,11 @@ cordova plugin add cordova-replay
 Description
 -----------
 
-This cordova plugin allow to use the ReplayKit framework in iOS.
+This cordova plugin allows to use the ReplayKit framework in iOS.
 The ReplayKit is a new feature in iOS 9.0, that performs screen / microphone recording.
 
 
-The plugin is reference by `cordova.plugins.Replay`.
+The plugin is referenced by `cordova.plugins.Replay`.
 
 
 Methods
@@ -39,7 +39,7 @@ Usage sample
 
 var isRecording = false;
 function startRecord(enableMic) {
-	cordova.plugins.CordovaReplay.startRecording(enableMic,
+	cordova.plugins.Replay.startRecording(enableMic,
 		function() {
    	 		isRecording = true;
    	 	}, function(err) {
@@ -48,7 +48,7 @@ function startRecord(enableMic) {
 	);
 };
 function stopRecording = function() {
-    cordova.plugins.CordovaReplay.stopRecording(
+    cordova.plugins.Replay.stopRecording(
        	function() {
        		isRecording = false;
           	console.log('ok!');
