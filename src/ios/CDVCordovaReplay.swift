@@ -6,62 +6,71 @@ import UIKit
   weak var previewViewController: RPPreviewViewController?
   var CDVWebview:UIWebView;
 
-	// This is just called if <param name="onload" value="true" /> in plugin.xml.
-	override init(webView: UIWebView) {
-		NSLog("CordovaReplay#init()")
-		self.CDVWebview = webView
-		super.init(webView: webView)
-	}
+  // This is just called if <param name="onload" value="true" /> in plugin.xml.
+    init(webView: UIWebView) {
+        NSLog("CordovaReplay#init()")
+        self.CDVWebview = webView
+//        super.init(webView: webView)
+    }
 
-  func startRecording(command: CDVInvokedUrlCommand) {
-    let recorder = RPScreenRecorder.sharedRecorder()
+  func startRecording(_ command: CDVInvokedUrlCommand) {
+    let recorder = RPScreenRecorder.shared()
     recorder.delegate = self
-    let isMicrophoneEnabled = command.argumentAtIndex(0) as! Bool
-    recorder.startRecordingWithMicrophoneEnabled(isMicrophoneEnabled) { [unowned self] (error) in
-      var pluginResult:CDVPluginResult
-      if let unwrappedError = error {
-        pluginResult = CDVPluginResult(status:CDVCommandStatus_ERROR, messageAsString: unwrappedError.localizedDescription)
-        pluginResult.setKeepCallbackAsBool(true)
-        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-      } else {
-        pluginResult = CDVPluginResult(status:CDVCommandStatus_OK)
-        pluginResult.setKeepCallbackAsBool(true)
-        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
-      }
+//    let isMicrophoneEnabled = command.argument(at: 0) as! Bool
+    if #available(iOS 10.0, *) {
+        recorder.startRecording() { [unowned self] (error) in
+            var pluginResult:CDVPluginResult
+            if let unwrappedError = error {
+                pluginResult = CDVPluginResult(status:CDVCommandStatus_ERROR, messageAs: unwrappedError.localizedDescription)
+                pluginResult.setKeepCallbackAs(true)
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            } else {
+                pluginResult = CDVPluginResult(status:CDVCommandStatus_OK)
+                pluginResult.setKeepCallbackAs(true)
+                self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
+            }
+        }
+    } else {
+        // ???
+        // recorder.startRecording not defined iOS <10.0
+        var pluginResult:CDVPluginResult
+        pluginResult = CDVPluginResult(status:CDVCommandStatus_ERROR)
+        pluginResult.setKeepCallbackAs(true)
+        self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
     }
   }
 
-  func stopRecording(command: CDVInvokedUrlCommand) {
-    let recorder = RPScreenRecorder.sharedRecorder()
+  func stopRecording(_ command: CDVInvokedUrlCommand) {
+    let recorder = RPScreenRecorder.shared()
 
-    recorder.stopRecordingWithHandler { [unowned self] (preview, error) in
+    recorder.stopRecording { [unowned self] (preview, error) in
       var pluginResult:CDVPluginResult
       if let unwrappedPreview = preview {
         unwrappedPreview.previewControllerDelegate = self
         self.previewViewController = unwrappedPreview
-        self.previewViewController!.modalPresentationStyle = UIModalPresentationStyle.FullScreen;
-        self.CDVWebview.window!.rootViewController!.presentViewController(unwrappedPreview, animated: true, completion: nil)
+        self.previewViewController!.modalPresentationStyle = UIModalPresentationStyle.fullScreen;
+        self.viewController.present(unwrappedPreview, animated: true, completion: nil);
         pluginResult = CDVPluginResult(status:CDVCommandStatus_OK)
-        pluginResult.setKeepCallbackAsBool(true)
-        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        pluginResult.setKeepCallbackAs(true)
+        self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
       }
       if let unwrappedError = error {
-        pluginResult = CDVPluginResult(status:CDVCommandStatus_ERROR, messageAsString: unwrappedError.localizedDescription)
-        pluginResult.setKeepCallbackAsBool(true)
-        self.commandDelegate!.sendPluginResult(pluginResult, callbackId:command.callbackId)
+        pluginResult = CDVPluginResult(status:CDVCommandStatus_ERROR, messageAs: unwrappedError.localizedDescription)
+        pluginResult.setKeepCallbackAs(true)
+        self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
       }
     }
   }
 
   func previewControllerDidFinish(previewController: RPPreviewViewController) {
-    previewController.dismissViewControllerAnimated(true, completion: nil)
+    previewController.dismiss(animated: true, completion: nil)
   }
 
   override func onReset() {
-	NSLog("CordovaReplay#onReset() | doing nothing")
+    NSLog("CordovaReplay#onReset() | doing nothing")
   }
 
   override func onAppTerminate() {
-	NSLog("CordovaReplay#onAppTerminate() | doing nothing")
+    NSLog("CordovaReplay#onAppTerminate() | doing nothing")
   }
 }
