@@ -15,6 +15,7 @@
     </js-module>
 
     <platform name="ios">
+        <hook type="after_plugin_add" src="hooks/setswiftversion.js" />
         <config-file parent="/*" target="config.xml">
             <feature name="CordovaReplay">
                 <param name="ios-package" value="CordovaReplay"/>
