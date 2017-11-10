@@ -1,6 +1,6 @@
 {
   "name": "cordova-replay",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Allows to use the iOS's ReplayKit framework",
   "repository": {
     "type": "git",
