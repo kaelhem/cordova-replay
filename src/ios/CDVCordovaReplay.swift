@@ -11,8 +11,6 @@ class BroadcastController : RPBroadcastController {
     
     weak var previewViewController: RPPreviewViewController?
     var CDVWebview:UIWebView;
-    
-    let recorder = RPScreenRecorder.shared()
 
     // This is just called if <param name="onload" value="true" /> in plugin.xml.
     init(webView: UIWebView) {
@@ -21,6 +19,7 @@ class BroadcastController : RPBroadcastController {
     }
     
     func isAvailable(_ command: CDVInvokedUrlCommand) {
+        let recorder = RPScreenRecorder.shared()
         if #available(iOS 10.0, *) {
             let available = recorder.isAvailable;
             let pluginResult = CDVPluginResult(status:CDVCommandStatus_OK, messageAs: available)
@@ -32,12 +31,14 @@ class BroadcastController : RPBroadcastController {
     }
     
     func isRecording(_ command: CDVInvokedUrlCommand) {
+        let recorder = RPScreenRecorder.shared()
         let recording = recorder.isRecording;
         let pluginResult = CDVPluginResult(status:CDVCommandStatus_OK, messageAs: recording)
         self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
     }
     
     func startRecording(_ command: CDVInvokedUrlCommand) {
+        let recorder = RPScreenRecorder.shared()
         recorder.delegate = self
         // just turn on the microphone, the user will have the option to record with microphone
         recorder.isMicrophoneEnabled = true
@@ -67,6 +68,7 @@ class BroadcastController : RPBroadcastController {
     }
     
     func stopRecording(_ command: CDVInvokedUrlCommand) {
+        let recorder = RPScreenRecorder.shared()
         recorder.stopRecording { [unowned self] (preview, error) in
             var pluginResult:CDVPluginResult
             if let unwrappedPreview = preview {
