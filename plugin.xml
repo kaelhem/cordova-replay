@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-replay" version="0.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+<plugin id="cordova-replay" version="0.0.4" xmlns="http://apache.org/cordova/ns/plugins/1.0">
     <name>CordovaReplay</name>
     <description>This cordova plugin allows to use the ReplayKit framework in iOS</description>
     <keywords>cordova,replaykit,screen recording</keywords>
