@@ -18,6 +18,7 @@ class BroadcastController : RPBroadcastController {
         //super.init(webView: webView)
     }
     
+    @objc(isAvailable:)
     func isAvailable(_ command: CDVInvokedUrlCommand) {
         let recorder = RPScreenRecorder.shared()
         if #available(iOS 10.0, *) {
@@ -30,6 +31,7 @@ class BroadcastController : RPBroadcastController {
         }
     }
     
+    @objc(isRecording:)
     func isRecording(_ command: CDVInvokedUrlCommand) {
         let recorder = RPScreenRecorder.shared()
         let recording = recorder.isRecording;
@@ -37,6 +39,7 @@ class BroadcastController : RPBroadcastController {
         self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
     }
     
+    @objc(startRecording:)
     func startRecording(_ command: CDVInvokedUrlCommand) {
         let recorder = RPScreenRecorder.shared()
         recorder.delegate = self
@@ -67,6 +70,7 @@ class BroadcastController : RPBroadcastController {
         }
     }
     
+    @objc(stopRecording:)
     func stopRecording(_ command: CDVInvokedUrlCommand) {
         let recorder = RPScreenRecorder.shared()
         recorder.stopRecording { [unowned self] (preview, error) in
@@ -93,6 +97,7 @@ class BroadcastController : RPBroadcastController {
     }
 
     /* https://www.appcoda.com/replaykit-live-broadcast/ */
+    @objc(isBroadcastAvailable:)
     func isBroadcastAvailable(_ command: CDVInvokedUrlCommand) {
         var available = false;
         // Note: there is no isAvailable property, so we only check if we're on iOS10
@@ -102,6 +107,8 @@ class BroadcastController : RPBroadcastController {
         let pluginResult = CDVPluginResult(status:CDVCommandStatus_OK, messageAs: available)
         self.commandDelegate!.send(pluginResult, callbackId:command.callbackId)
     }
+    
+    @objc(isBroadcasting:)
     func isBroadcasting(_ command: CDVInvokedUrlCommand) {
         var recording = false;
         if #available(iOS 10.0, *) {
@@ -112,6 +119,7 @@ class BroadcastController : RPBroadcastController {
     }
     
     weak var broadcastCommand:CDVInvokedUrlCommand?
+    @objc(startBroadcast:)
     func startBroadcast(_ command: CDVInvokedUrlCommand) {
         if #available(iOS 10.0, *) {
             // pass the cordova command to broadcastactivityviewcontroller
@@ -164,6 +172,7 @@ class BroadcastController : RPBroadcastController {
         }
     }
 
+    @objc(stopBroadcast:)
     func stopBroadcast(_ command: CDVInvokedUrlCommand) {
         if #available(iOS 10.0, *) {
             let controller = BroadcastController.controller;
